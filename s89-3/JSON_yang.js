@@ -83,44 +83,46 @@ const stringify89_3_210413 = (arr => {
 	
 	
 	
-	// logic 반복문.... 재귀 제거 실패 ====================================================
+	// logic 반복문.... 재귀 제거 실패 ==> 수정  ====================================================
 	const _arrayStringifyFor = (arr, i, acc, stack)=> {
-		while(i < arr.length) {
-			const item = arr[i];
-			if (Array.isArray(item)) {
-				stack.push([arr, i, acc]);
-				return _arrayStringifyFor(item, 0, '', stack);
+		let cnt = 0;
+		const limit = 40000;
+		while(true && cnt < limit) {
+			if (i < arr.length) {
+				const item = arr[i];
+				if (Array.isArray(item)) {
+					stack.push([arr, i, acc]);
+					arr = item;
+					i = 0;
+					acc = '';
+				} else {
+					arr = arr;
+					i = i + 1
+					acc = acc + `,${el.stringifyRouter(item)}`;
+					stack = stack;
+				}
 			} else {
-				return _arrayStringifyFor(arr, i + 1, acc + `,${el.stringifyRouter(item)}`, stack);
+				if (0 < stack.length) {
+					if (stack[stack.length -1].length != 3) {
+						err(`invalid stack. i: ${i}, stack: ${stack}`);
+					}
+					var [arr, i, _acc] = stack.pop();
+					arr = arr;
+					i = i + 1;
+					acc = _acc  + `,[${acc.substr(1)}]`;
+					stack = stack;
+				} else {
+					return `[${acc.substr(1)}]`;
+				}
 			}
-		}
-		if (0 < stack.length) {
-			if (stack[stack.length -1].length != 3) {
-				err(`invalid stack. i: ${i}, stack: ${stack}`);
-			}
-			var [arr, i, _acc] = stack.pop();
-			return _arrayStringifyTail(arr, i + 1, _acc  + `,[${acc.substr(1)}]`, stack);
-		} else {
-			return `${acc.substr(1)}`;
-		}
-	};
-	const EMPTY = -999999;
-	const resultProcess = {
-		table: {
-			"true": (arr)=>"[]",
-			"false": (arr)=>{
-				let acc = "", i = 0, stack = [];
-				return `[${_arrayStringifyFor(arr, i, acc, stack)}]`;
-			}
-		},
-		processRouter(arr){
-			return this.table[arr.length == 0]?.(arr) ?? err("no case");
+			cnt++;
 		}
 	};
+	const EMPTY = '-9999';
     const arrayStringifyFor = arr => {
 		arrValidator(arr);
 		let result = EMPTY;
-		result = resultProcess.processRouter(arr);
+		result = _arrayStringifyFor(arr, 0, '', []);
 		if (result === EMPTY) throw "no processed";
 		return result;
 	};
