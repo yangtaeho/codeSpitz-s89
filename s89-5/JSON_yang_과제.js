@@ -142,9 +142,39 @@ const test_stringify = (f, v, isDebug = true)=>{
 	console.log(...logs);
 };
 
-test_stringify(stringify89_4_210420.stringifyTail, {});
+const _block = 1;
+const _block2 = 0;
+if(!_block){
+test_stringify(stringify89_4_210420.stringifyTail, []);
+test_stringify(stringify89_4_210420.stringifyTail, [1, 2, ["a", [1, 2], false], 3, ["b", "c", [1, 2]]], true);
+test_stringify(stringify89_4_210420.stringifyTail, [,'test', 1]);
+test_stringify(stringify89_4_210420.stringifyTail, [1, "ab\"c", true, null, _=>3], true);
+test_stringify(stringify89_4_210420.stringifyTail, [1, "ab\"\nc", true, null, _=>3]);
+test_stringify(stringify89_4_210420.stringifyTail, [1, "ab\"\rc", true, null, _=>3]);
+test_stringify(stringify89_4_210420.stringifyTail, [1, "ab\"\lc", true, null, _=>3]);
+test_stringify(stringify89_4_210420.stringifyTail, [1, "ab\"\r\nc", true, null, _=>3]);
+test_stringify(stringify89_4_210420.stringifyTail, [1, "ab\"c", true, undefined, null, _=>3, Symbol()]);
+test_stringify(stringify89_4_210420.stringifyTail, [1, "ab\"c", true, undefined, null, ["ab\"c", true, undefined, null], _=>3, Symbol()]);
+}
 test_stringify(stringify89_4_210420.stringifyTail, {_1:3, b:"abc", 3:true, true: '5'});
+test_stringify(stringify89_4_210420.stringifyTail, {_1:[1], _3: 3, 4: '5', 6: true});
+test_stringify(stringify89_4_210420.stringifyTail, {_1:[1, "ab\"c", true, undefined, null, ["ab\"c", true, undefined, null], _=>3, Symbol()], 2: '3', '3': {_4: '5', _6: '7'}, '8': ['9', 10, {'11': '12'}]});
 console.log('\n\n====\n\n');
-test_stringify(stringify89_4_210420.stringifyFor, {});
+if(!_block){
+test_stringify(stringify89_4_210420.stringifyFor, []);
+test_stringify(stringify89_4_210420.stringifyFor, [1, 2, ["a", [1, 2], false], 3, ["b", "c", [1, 2]]], true);
+test_stringify(stringify89_4_210420.stringifyFor, [,'test', 1]);
+test_stringify(stringify89_4_210420.stringifyFor, [1, "ab\"c", true, null, _=>3]);
+test_stringify(stringify89_4_210420.stringifyFor, [1, "ab\"\nc", true, null, _=>3]);
+test_stringify(stringify89_4_210420.stringifyFor, [1, "ab\"\rc", true, null, _=>3]);
+test_stringify(stringify89_4_210420.stringifyFor, [1, "ab\"\lc", true, null, _=>3]);
+test_stringify(stringify89_4_210420.stringifyFor, [1, "ab\"\r\nc", true, null, _=>3]);
+test_stringify(stringify89_4_210420.stringifyFor, [1, "ab\"c", true, undefined, null, _=>3, Symbol()]);
+test_stringify(stringify89_4_210420.stringifyFor, [1, "ab\"c", true, undefined, null, ["ab\"c", true, undefined, null], _=>3, Symbol()]);
+}
+if(!_block2){
 test_stringify(stringify89_4_210420.stringifyFor, {_1:3, b:"abc", 3:true, true: '5'});
+test_stringify(stringify89_4_210420.stringifyFor, {_1:[1], _3: 3, 4: '5', 6: true});
+test_stringify(stringify89_4_210420.stringifyFor, {_1:[1, "ab\"c", true, undefined, null, ["ab\"c", true, undefined, null], _=>3, Symbol()], 2: '3', '3': {_4: '5', _6: '7'}, '8': ['9', 10, {'11': '12'}]});
 console.log('\n\n====\n\n');
+}
